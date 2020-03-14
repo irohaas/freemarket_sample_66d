@@ -13,6 +13,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = User.new
   end
 
+  
+
 
   # POST /resource
   # def create
@@ -20,13 +22,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   def create
     @user = User.new(sign_up_params)
+
     unless @user.valid?
       flash.now[:alert] = @user.errors.full_messages
       render :new and return
     end
-    session["devise.regist_data"] = {user: @user.attributes}
-    session["devise.regist_data"][:user]["password"] = params[:user][:password]
-    @address = @user.build_address
+    # session["devise.regist_data"] = {user: @user.attributes}
+    # session["devise.regist_data"][:user]["password"] = params[:user][:password]
+    @user.save
     render :new_address
   end
 
@@ -99,7 +102,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def address_params
-    params.require(:address).permit(:lastname, :firstname)
+    params.require(:address).permit(:user_id, :lastname, :firstname, :lastname_kana, :firstname_kana, :postal_code, :prefecture, :municipality, :street)
   end
 
 

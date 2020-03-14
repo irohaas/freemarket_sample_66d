@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
  
+  get 'addresses/new'
+  get 'addresses/create'
   devise_for :users, controllers: {
     registrations: 'users/registrations',
   }
